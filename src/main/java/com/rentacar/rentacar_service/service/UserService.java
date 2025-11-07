@@ -10,12 +10,16 @@ import org.springframework.stereotype.Service;
 public class UserService {
 
   private final UserRepository userRepository;
+  private final KeycloakUserService keycloakUserService;
 
-  public UserService(UserRepository userRepository) {
+  public UserService(UserRepository userRepository,KeycloakUserService keycloakUserService) {
     this.userRepository = userRepository;
+    this.keycloakUserService=keycloakUserService;
   }
 
   public User createUser(User user) {
+    String keyCloakUserId=keycloakUserService.createUserInKeycloak(user);
+    user.setKeyClockId(keyCloakUserId);
     return userRepository.saveUser(user);
   }
 

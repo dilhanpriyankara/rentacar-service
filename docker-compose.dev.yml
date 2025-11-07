@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  keycloak:
+    image: quay.io/keycloak/keycloak:latest
+    container_name: keycloak_local
+    command:
+      - start-dev
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin123
+
+      # DB Settings - Connect to Local PostgreSQL (installed on your PC)
+      KC_DB: postgres
+      KC_DB_URL: jdbc:postgresql://host.docker.internal:5432/keycloak
+      KC_DB_USERNAME: postgres        # change if your local username is different
+      KC_DB_PASSWORD: root   # <-- replace with your actual local DB password
+
+    ports:
+      - "8180:8080"   # Keycloak inside container (8080) → outside (8180)
+    depends_on: []
+    restart: always
