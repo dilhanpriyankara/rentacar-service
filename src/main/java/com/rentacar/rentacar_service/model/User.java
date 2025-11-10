@@ -2,6 +2,7 @@ package com.rentacar.rentacar_service.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,5 +25,7 @@ public class User extends AuditableEntity {
   private String phoneNumber;
   private String role;
   private String keyClockId;
+  @OneToMany(mappedBy = "owner")
+  private List<Vehicle> vehicle;
 
 }

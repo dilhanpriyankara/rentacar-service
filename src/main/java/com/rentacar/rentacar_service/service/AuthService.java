@@ -12,19 +12,27 @@ import java.util.*;
 @Service
 public class AuthService {
 
-  private final String tokenUrl = "http://localhost:8180/realms/rentacar-realm/protocol/openid-connect/token";
+  @Value("${keycloak.server-url}")
+  private String serverUrl;
+
+  @Value("${keycloak.realm}")
+  private String realm;
+
   @Value("${keycloak.client-id}")
   private String clientId;
+
   @Value("${keycloak.client-secret}")
   private String clientSecret;
 
   public KeycloakTokenResponse login(String username, String password) {
+    final String tokenUrl = serverUrl+"/realms/"+realm+"/protocol/openid-connect/token";
     RestTemplate restTemplate = new RestTemplate();
     HttpHeaders headers = new HttpHeaders();
     headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
     MultiValueMap<String, String> body = buildBody(username, password);
     HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity<>(body, headers);
-    ResponseEntity<KeycloakTokenResponse> response = restTemplate.exchange(tokenUrl, HttpMethod.POST, entity,
+    ResponseEntity<KeycloakTokenResponse> response = restTemplate.exchange(tokenUrl,
+        HttpMethod.POST, entity,
         KeycloakTokenResponse.class
     );
 
