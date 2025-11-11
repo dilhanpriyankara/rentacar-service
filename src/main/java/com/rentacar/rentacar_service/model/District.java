@@ -20,4 +20,6 @@ public class District {
   private String name;
   @OneToMany(mappedBy = "district", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<City> cities;
+  @OneToMany(mappedBy = "district",cascade =CascadeType.ALL)
+  private List<Vehicle> vehicle;
 }

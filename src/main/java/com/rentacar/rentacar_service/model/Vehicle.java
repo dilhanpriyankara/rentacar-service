@@ -43,9 +43,9 @@ public class Vehicle extends AuditableEntity {
   private double allowedKilometersPerDay;
   private double pricePerMonth;
   private String description;
-  @OneToOne
+  @ManyToOne
   private District district;
-  @OneToOne
+  @ManyToOne
   private City city;
   @Enumerated(EnumType.STRING)
   private Status status;

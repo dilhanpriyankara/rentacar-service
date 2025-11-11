@@ -1,6 +1,7 @@
 package com.rentacar.rentacar_service.model;
 
 import jakarta.persistence.*;
+import java.util.List;
 import lombok.*;
 
 @Entity
@@ -17,4 +18,6 @@ public class City {
   @ManyToOne
   private District district;
   private String name;
+  @OneToMany(mappedBy = "city" ,cascade = CascadeType.ALL)
+  private List<Vehicle> vehicle;
 }

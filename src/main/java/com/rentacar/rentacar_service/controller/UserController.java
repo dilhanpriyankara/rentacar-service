@@ -2,8 +2,12 @@ package com.rentacar.rentacar_service.controller;
 
 import com.rentacar.rentacar_service.model.User;
 import com.rentacar.rentacar_service.service.UserService;
+import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,5 +28,17 @@ public class UserController {
     } catch (Exception e) {
       return ResponseEntity.badRequest().body(e.getMessage());
     }
+  }
+
+  @GetMapping("/info")
+  public Map<String, Object> userInfo(@AuthenticationPrincipal Jwt jwt) {
+    return Map.of(
+        "userId", jwt.getSubject(),
+        "username", jwt.getClaimAsString("preferred_username"),
+        "email", jwt.getClaimAsString("email"),
+        "roles", jwt.getClaim("realm_access"),
+        "issuedAt", jwt.getIssuedAt(),
+        "expiresAt", jwt.getExpiresAt()
+    );
   }
 }

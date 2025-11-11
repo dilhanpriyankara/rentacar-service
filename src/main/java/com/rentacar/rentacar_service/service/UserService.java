@@ -1,7 +1,7 @@
 package com.rentacar.rentacar_service.service;
 
 import com.rentacar.rentacar_service.model.User;
-import com.rentacar.rentacar_service.repository.UserRepository;
+import com.rentacar.rentacar_service.repository.UserRepositoryCustom;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
@@ -9,10 +9,10 @@ import org.springframework.stereotype.Service;
 @Transactional
 public class UserService {
 
-  private final UserRepository userRepository;
+  private final UserRepositoryCustom userRepository;
   private final KeycloakUserService keycloakUserService;
 
-  public UserService(UserRepository userRepository,KeycloakUserService keycloakUserService) {
+  public UserService(UserRepositoryCustom userRepository,KeycloakUserService keycloakUserService) {
     this.userRepository = userRepository;
     this.keycloakUserService=keycloakUserService;
   }
