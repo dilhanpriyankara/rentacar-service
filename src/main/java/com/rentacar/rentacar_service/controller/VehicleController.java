@@ -9,7 +9,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -34,19 +33,20 @@ public class VehicleController {
     return ResponseEntity.ok("Vehicle created successfully");
   }
 
-  @GetMapping("/all")
-  public Page<VehicleResponseDto> getAllVehicle(@RequestParam(defaultValue = "0") int page,
+  @PostMapping("/search")
+  public Page<VehicleResponseDto> getAllVehicle(@RequestBody VehicleRequestDto req,
+      @RequestParam(defaultValue = "0") int page,
       @RequestParam(defaultValue = "10") int size,
       @RequestParam(defaultValue = "id") String sortBy) {
 
     Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
-    return vehicleService.getAllVehicles(pageable);
+    return vehicleService.getAllVehicles(req,pageable);
   }
 
   @PatchMapping("status/{id}")
   public ResponseEntity<String> updateVehicleStatus(@PathVariable Long id,
       @RequestParam Status status) {
-    vehicleService.updateStatus(id,status);
+    vehicleService.updateStatus(id, status);
     return ResponseEntity.ok("Status updated successfully");
   }
 }

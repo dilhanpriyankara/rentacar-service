@@ -6,11 +6,11 @@ import com.rentacar.rentacar_service.enums.Status;
 import com.rentacar.rentacar_service.model.Vehicle;
 import com.rentacar.rentacar_service.repository.CityRepository;
 import com.rentacar.rentacar_service.repository.DistrictRepository;
+import com.rentacar.rentacar_service.repository.Specification.VehicleSpecification;
 import com.rentacar.rentacar_service.repository.UserRepository;
 import com.rentacar.rentacar_service.repository.VehicleRepository;
 import com.rentacar.rentacar_service.repository.VehicleRepositoryCustom;
 import jakarta.transaction.Transactional;
-import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -64,8 +64,10 @@ public class VehicleService {
     Vehicle persistedVehicle = vehicleRepositoryCustom.createOrUpdateVehicleData(vehicle);
   }
 
-  public Page<VehicleResponseDto> getAllVehicles(Pageable pageable) {
-    Page<Vehicle> vehiclePage = vehicleRepository.findAll(pageable);
+  public Page<VehicleResponseDto> getAllVehicles(VehicleRequestDto req, Pageable pageable) {
+
+    Page<Vehicle> vehiclePage = vehicleRepository.findAll(VehicleSpecification.withFilters(req),
+        pageable);
 
     return vehiclePage.map(this::convertToDto);
   }

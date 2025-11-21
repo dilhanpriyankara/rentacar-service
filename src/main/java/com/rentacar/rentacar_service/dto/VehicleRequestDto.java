@@ -19,9 +19,9 @@ public class VehicleRequestDto {
   private Integer seats;
   private FuelType fuelType;
   private TransmissionType transmissionType;
-  private double pricePerDay;
-  private double allowedKilometersPerDay;
-  private double pricePerMonth;
+  private Double pricePerDay;
+  private Double allowedKilometersPerDay;
+  private Double pricePerMonth;
   private String description;
   private Status status;
 }
